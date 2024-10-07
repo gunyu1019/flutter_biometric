@@ -20,6 +20,9 @@ class FlutterBiometricPlugin: FlutterPlugin, MethodCallHandler {
     channel = MethodChannel(flutterPluginBinding.binaryMessenger, "flutter_biometric")
     channel.setMethodCallHandler(this)
   }
+  override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
+    channel.setMethodCallHandler(null)
+  }
 
   override fun onMethodCall(call: MethodCall, result: Result) {
     if (call.method == "getPlatformVersion") {
@@ -27,9 +30,5 @@ class FlutterBiometricPlugin: FlutterPlugin, MethodCallHandler {
     } else {
       result.notImplemented()
     }
-  }
-
-  override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
-    channel.setMethodCallHandler(null)
   }
 }
