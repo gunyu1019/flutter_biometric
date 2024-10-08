@@ -7,7 +7,6 @@ import androidx.annotation.NonNull
 import android.content.Context
 import android.app.Activity
 import androidx.biometric.BiometricPrompt
-import androidx.biometric.BiometricPrompt.PromptInfo
 import androidx.biometric.BiometricManager
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
@@ -46,7 +45,32 @@ class FlutterBiometricPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
             BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED => result.success(05)
             else => result.error()
         }
-    } else {
+    } else if (call.method == "authorize") {
+        val argument = call.arguments as Map<String, String>
+        val promptInfo = getPrompt(
+            title = argument.get("title"),
+            negativeButtonText = argument.get("negativeButtonText"),
+            subtitle = argument.get("subtitle"),
+            description = argument.get("description")
+        )
+        authorize(promptInfo, object : BiometricPrompt.AuthenticationCallback() {
+            override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                super.onAuthenticationError(errorCode, errString)
+                result.error(errorCode, errString)
+            }
+
+            override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                super.onAuthenticationSucceeded(result)
+                result.success(true)
+            }
+
+            override fun onAuthenticationFailed() {
+                super.onAuthenticationFailed()
+                result.success(false)
+            }
+
+        })
+    }else {
       result.notImplemented()
     }
   }
@@ -62,5 +86,29 @@ class FlutterBiometricPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
     fun canAuthorization(): int {
         val biometricManager = BiometticManager.from(context)
         return biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK)
+    }
+
+    fun authorize(
+        prompt: BiometricPrompt.PromptInfo
+        callback: BiometricPrompt.AuthenticationCallback
+    ) {
+        
+    }
+
+    fun getPrompt(
+        title: String,
+        negativeButtonText: String,
+        subtitle: String? = null
+        description: String? = null
+    ): BiometricPrompt.PromptInfo {
+        return BiometricPrompt.PromptInfo.Builder().apply {
+            // Required
+            setTitle(title)
+            setNegativeButtonText(negativeButtonText)
+
+            // Optional
+            setSubtitle(subtitle)
+            setDescription(description)
+        }.build()
     }
 }
