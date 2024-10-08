@@ -1,6 +1,7 @@
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'flutter_biometric_method_channel.dart';
+import 'biometric_status.dart';
 
 abstract class FlutterBiometricPlatform extends PlatformInterface {
   /// Constructs a FlutterBiometricPlatform.
