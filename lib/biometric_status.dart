@@ -9,4 +9,12 @@ enum BiometricStatus {
     const BiometricStatus({
         required this.id
     });
+
+    bool toBoolean() {
+        return (this.id / 10) as bool;
+    }
+
+    BiometricStatus?.fromValue(int code) 
+        = BiometricStatus.values.firstWhere((value) => value.code == code, 
+                                        orElse: () => null);
 }
