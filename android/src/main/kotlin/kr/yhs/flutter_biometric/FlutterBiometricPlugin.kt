@@ -6,6 +6,7 @@ import android.os.Build
 import androidx.annotation.NonNull
 import android.content.Context
 import android.app.Activity
+import androidx.fragment.fragment.FragmentActivity
 import androidx.biometric.BiometricPrompt
 import androidx.biometric.BiometricManager
 
@@ -89,10 +90,14 @@ class FlutterBiometricPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
     }
 
     fun authorize(
-        prompt: BiometricPrompt.PromptInfo
+        promptInfo: BiometricPrompt.PromptInfo
         callback: BiometricPrompt.AuthenticationCallback
     ) {
-        
+        val prompt = BiometricPrompt(
+            activity as FragmentAcitivty,
+            callback
+        )
+        prompt.authenticate(promptInfo)
     }
 
     fun getPrompt(
