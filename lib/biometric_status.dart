@@ -11,10 +11,10 @@ enum BiometricStatus {
     });
 
     bool toBoolean() {
-        return (this.id / 10) as bool;
+        return (id / 10) as bool;
     }
 
-    BiometricStatus?.fromValue(int code) 
-        = BiometricStatus.values.firstWhere((value) => value.code == code, 
-                                        orElse: () => null);
+    factory BiometricStatus.fromId(int id) {
+        return BiometricStatus.values.firstWhere((obj) => obj.id == id);
+    }
 }
