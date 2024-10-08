@@ -37,6 +37,15 @@ class FlutterBiometricPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
   override fun onMethodCall(call: MethodCall, result: Result) {
     if (call.method == "getPlatformVersion") {
       result.success("Android ${android.os.Build.VERSION.RELEASE}")
+    } else if (call.method == "canAuthorization") {
+        val result = this.canAuthorization()
+        when(result) {
+            BiometricManager.BIOMETRIC_SUCCESS => result.success(10)
+            BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE => result.success(01)
+            BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE => result.success(02)
+            BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED => result.success(05)
+            else => result.error()
+        }
     } else {
       result.notImplemented()
     }
@@ -47,5 +56,11 @@ class FlutterBiometricPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
     activity = activityPluginBinding.activity;
   }
 
-  override fun onDetachedFromActivity() = Unit
+  override fun onDetachedFromActivity() = Unit;
+
+    // In Method
+    fun canAuthorization(): int {
+        val biometricManager = BiometticManager.from(context)
+        return biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK)
+    }
 }
