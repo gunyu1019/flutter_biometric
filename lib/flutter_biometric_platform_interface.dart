@@ -2,6 +2,7 @@ import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'flutter_biometric_method_channel.dart';
 import 'biometric_status.dart';
+import 'options/base_option.dart'
 
 abstract class FlutterBiometricPlatform extends PlatformInterface {
   /// Constructs a FlutterBiometricPlatform.
@@ -28,5 +29,8 @@ abstract class FlutterBiometricPlatform extends PlatformInterface {
 
   Future<BiometricStatus> canAuthorization();
 
-  Future<bool> authorize();
+  Future<bool> authorize(
+      title: String,
+      option: BaseOption
+  );
 }
