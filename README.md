@@ -1,4 +1,4 @@
-# flutter_biometric
+# Flutter Biometric
 
 ## Getting Started
 
