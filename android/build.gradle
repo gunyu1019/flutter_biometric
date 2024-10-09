@@ -47,8 +47,8 @@ android {
     }
 
     dependencies {
-        implementation("androidx.biometric:biometric:1.4.0-alpha02")
-        implementation("androidx.biometric:biometric-ktx:1.4.0-alpha02")
+        implementation("androidx.biometric:biometric:1.2.0-alpha05")
+        implementation("androidx.biometric:biometric-ktx:1.2.0-alpha05")
         implementation 'androidx.annotation:annotation:1.8.2'
         // implementation files('src/main/libs/flutter.jar')
     }
