@@ -7,12 +7,12 @@ class AndroidOption extends BaseOption {
     const AndroidOption({
         required this.title,
         required this.negativeButtonText,
-        this.description = null,
-        this.subtitle = null
+        this.description,
+        this.subtitle
     });
     
     @override
-    String platform get() = "Android";
+    String get platform => "Android";
 
     @override
     Map<String, dynamic> toArgument() {
