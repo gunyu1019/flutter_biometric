@@ -1,7 +1,5 @@
 # flutter_biometric
 
-A new Flutter plugin project.
-
 ## Getting Started
 
 This project is a starting point for a Flutter
