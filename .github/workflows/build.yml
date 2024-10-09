@@ -7,16 +7,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
     if: ${{ contains(github.event.head_commit.message, '[TEST BUILD]') }}
+    defaults:
+          run:
+            working-directory: ./example
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Install Flutter SDK
         run: |
-          cd example
           /usr/bin/git clone https://github.com/flutter/flutter.git .flutter -b stable 
       - name: Setup Flutter
         run: |
-          cd example
           .flutter/bin/flutter precache --android
       - name: Setup Java 18 (Amazon Corretto)
         uses: actions/setup-java@v4
@@ -25,14 +26,12 @@ jobs:
           java-version: '18'
       - name: Install dependencies
         run: |
-          cd example
           .flutter/bin/flutter pub get
       - name: Build Application(APK)
         run: |
-          cd example
           .flutter/bin/flutter build apk --release 
       - name: Upload application pacakge.
         uses: actions/upload-artifact@v4
         with:
           name: application
-          path: examples/build/app/outputs/apk/release/app-release.apk
+          path: build/app/outputs/apk/release/app-release.apk
