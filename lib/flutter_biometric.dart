@@ -16,6 +16,6 @@ class FlutterBiometric {
         String title,
         BaseOption option
     ) {
-        return FlutterBiometricPlatform.instance.authenticate();
+        return FlutterBiometricPlatform.instance.authenticate(title, option);
     }
 }
