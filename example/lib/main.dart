@@ -60,15 +60,12 @@ class _MyAppState extends State<MyApp> {
                 ),
                 floatingActionButton: FloatingActionButton(
                     onPressed: () {
-                        var result = _flutterBiometricPlugin.authenticate(
-                            title: 'Biometric Authenticate',
-                            option: AndroidOption(
+                        _flutterBiometricPlugin.authenticate(
+                            'Biometric Authenticate',
+                            AndroidOption(
                                 negativeButtonText: "취소"
                             )
                         );
-                        setState(() {
-                            _platformVersion = "${result}";
-                        });
                     },
                     tooltip: 'Authenticate',
                     child: const Icon(Icons.fingerprint),
