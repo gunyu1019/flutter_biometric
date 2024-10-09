@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_biometric/flutter_biometric.dart';
+import 'package:flutter_biometric/options/android_option.dart';
 
 void main() {
     runApp(const MyApp());
@@ -58,8 +59,16 @@ class _MyAppState extends State<MyApp> {
                     child: Text('Running on: $_platformVersion\n'),
                 ),
                 floatingActionButton: FloatingActionButton(
-                    onPressed: {
-                        
+                    onPressed: () {
+                        var result = _flutterBiometricPlugin.authenticate(
+                            title: 'Biometric Authenticate',
+                            option: AndroidOption(
+                                negativeButtonText: "취소"
+                            )
+                        );
+                        setState(() {
+                            _platformVersion = "${result}";
+                        });
                     },
                     tooltip: 'Authenticate',
                     child: const Icon(Icons.fingerprint),
