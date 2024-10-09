@@ -30,7 +30,7 @@ abstract class FlutterBiometricPlatform extends PlatformInterface {
   Future<BiometricStatus> canAuthorization();
 
   Future<bool> authorize(
-      title: String,
-      option: BaseOption
+      String title,
+      BaseOption option
   );
 }
