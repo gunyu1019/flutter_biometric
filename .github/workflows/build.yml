@@ -23,11 +23,11 @@ jobs:
           java-version: '18'
       - name: Install dependencies
         run: |
-          cd examples
+          cd example
           .flutter/bin/flutter pub get
       - name: Build Application(APK)
         run: |
-          cd examples
+          cd example
           .flutter/bin/flutter build apk --release 
       - name: Upload application pacakge.
         uses: actions/upload-artifact@v4
