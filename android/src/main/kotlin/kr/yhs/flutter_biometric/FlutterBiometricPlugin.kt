@@ -1,12 +1,10 @@
 package kr.yhs.flutter_biometric
 
 import androidx.annotation.NonNull
-
 import android.os.Build
-import androidx.annotation.NonNull
 import android.content.Context
 import android.app.Activity
-import androidx.fragment.fragment.FragmentActivity
+import androidx.fragment.app.FragmentActivity
 import androidx.biometric.BiometricPrompt
 import androidx.biometric.BiometricManager
 
@@ -38,30 +36,30 @@ class FlutterBiometricPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
     if (call.method == "getPlatformVersion") {
       result.success("Android ${android.os.Build.VERSION.RELEASE}")
     } else if (call.method == "canAuthorization") {
-        val result = this.canAuthorization()
-        when(result) {
-            BiometricManager.BIOMETRIC_SUCCESS => result.success(10)
-            BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE => result.success(01)
-            BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE => result.success(02)
-            BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED => result.success(05)
-            else => result.error()
+        val v = this.canAuthorization()
+        when(v) {
+            BiometricManager.BIOMETRIC_SUCCESS -> result.success(10)
+            BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> result.success(1)
+            BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> result.success(2)
+            BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> result.success(5)
+            else -> result.error("Biometric_ERROR_0", null, null)
         }
     } else if (call.method == "authenticate") {
         val argument = call.arguments as Map<String, String>
         val promptInfo = getPrompt(
-            title = argument.get("title"),
-            negativeButtonText = argument.get("negativeButtonText"),
+            title = argument.get("title")!!,
+            negativeButtonText = argument.get("negativeButtonText")!!,
             subtitle = argument.get("subtitle"),
             description = argument.get("description")
         )
         authorize(promptInfo, object : BiometricPrompt.AuthenticationCallback() {
             override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
                 super.onAuthenticationError(errorCode, errString)
-                result.error(errorCode, errString)
+                result.error("Biometric_ERROR_${errorCode}", errString.toString(), null)
             }
 
-            override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
-                super.onAuthenticationSucceeded(result)
+            override fun onAuthenticationSucceeded(r: BiometricPrompt.AuthenticationResult) {
+                super.onAuthenticationSucceeded(r)
                 result.success(true)
             }
 
@@ -84,17 +82,17 @@ class FlutterBiometricPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
   override fun onDetachedFromActivity() = Unit;
 
     // In Method
-    fun canAuthorization(): int {
-        val biometricManager = BiometticManager.from(context)
+    fun canAuthorization(): Int {
+        val biometricManager = BiometricManager.from(context)
         return biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK)
     }
 
     fun authorize(
-        promptInfo: BiometricPrompt.PromptInfo
+        promptInfo: BiometricPrompt.PromptInfo,
         callback: BiometricPrompt.AuthenticationCallback
     ) {
         val prompt = BiometricPrompt(
-            activity as FragmentAcitivty,
+            activity as FragmentActivity,
             callback
         )
         prompt.authenticate(promptInfo)
@@ -103,7 +101,7 @@ class FlutterBiometricPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
     fun getPrompt(
         title: String,
         negativeButtonText: String,
-        subtitle: String? = null
+        subtitle: String? = null,
         description: String? = null
     ): BiometricPrompt.PromptInfo {
         return BiometricPrompt.PromptInfo.Builder().apply {
@@ -116,4 +114,7 @@ class FlutterBiometricPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
             setDescription(description)
         }.build()
     }
+    override fun onDetachedFromActivityForConfigChanges() { }
+
+    override fun onReattachedToActivityForConfigChanges(p0: ActivityPluginBinding) { }
 }
