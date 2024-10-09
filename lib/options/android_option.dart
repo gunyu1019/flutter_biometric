@@ -1,9 +1,11 @@
+import 'base_option.dart';
+
 class AndroidOption extends BaseOption {
     final String negativeButtonText;
     final String? description;
     final String? subtitle;
     
-    const AndroidOption({
+    AndroidOption({
         required this.negativeButtonText,
         this.description,
         this.subtitle

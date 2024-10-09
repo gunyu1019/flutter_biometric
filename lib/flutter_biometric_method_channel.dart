@@ -20,7 +20,7 @@ class MethodChannelFlutterBiometric extends FlutterBiometricPlatform {
     @override
     Future<BiometricStatus> canAuthorization() async {
         final result = await methodChannel.invokeMethod<int>('canAuthorization');
-        return BiometricStatus.fromId(result!!)
+        return BiometricStatus.fromId(result!);
     }
 
     @override
