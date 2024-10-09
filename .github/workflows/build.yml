@@ -12,9 +12,11 @@ jobs:
         uses: actions/checkout@v4
       - name: Install Flutter SDK
         run: |
+          cd example
           /usr/bin/git clone https://github.com/flutter/flutter.git .flutter -b stable 
       - name: Setup Flutter
         run: |
+          cd example
           .flutter/bin/flutter precache --android
       - name: Setup Java 18 (Amazon Corretto)
         uses: actions/setup-java@v4
