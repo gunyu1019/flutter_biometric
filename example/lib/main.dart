@@ -32,8 +32,12 @@ class _MyAppState extends State<MyApp> {
         // Platform messages may fail, so we use a try/catch PlatformException.
         // We also handle the message potentially returning null.
         try {
-            platformVersion =
-                await _flutterBiometricPlugin.getPlatformVersion() ?? 'Unknown platform version';
+            var l = await _flutterBiometricPlugin.canAuthorization();
+            if (l == null) {
+                platfromVersion = "Unknown platform version";
+            } else {
+                platformVersion = l.name;
+            }
         } on PlatformException {
             platformVersion = 'Failed to get platform version.';
         }
