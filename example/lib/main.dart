@@ -34,7 +34,7 @@ class _MyAppState extends State<MyApp> {
         try {
             var l = await _flutterBiometricPlugin.canAuthorization();
             if (l == null) {
-                platfromVersion = "Unknown platform version";
+                platformVersion = "Unknown platform version";
             } else {
                 platformVersion = l.name;
             }
