@@ -42,8 +42,9 @@ class FlutterBiometricPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
             BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> result.success(1)
             BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> result.success(2)
             BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> result.success(5)
-            else -> result.error("Biometric_ERROR_0", null, null)
+            else -> result.error("Biometric_ERROR_0", v.toString(), null)
         }
+        result(v)
     } else if (call.method == "authenticate") {
         val argument = call.arguments as Map<String, String>
         val promptInfo = getPrompt(
