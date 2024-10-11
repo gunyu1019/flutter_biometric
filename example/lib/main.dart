@@ -39,7 +39,7 @@ class _MyAppState extends State<MyApp> {
                 platformVersion = l.name;
             }
         } on PlatformException catch(e) {
-            platformVersion = e.message;
+            platformVersion = e.message ?? e.code;
         }
 
         // If the widget was removed from the tree while the asynchronous platform
