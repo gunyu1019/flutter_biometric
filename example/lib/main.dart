@@ -64,7 +64,7 @@ class _MyAppState extends State<MyApp> {
             );
             platformVersion = "${result}";
         } on PlatformException catch(e) {
-            platformVersion = e.message ?? e.code;
+            platformVersion = e.message ?? e.stacktrace ?? e.code;
         }
         if(!mounted) return;
         
