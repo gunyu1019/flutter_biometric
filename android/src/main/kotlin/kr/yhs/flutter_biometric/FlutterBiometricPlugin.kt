@@ -46,6 +46,7 @@ class FlutterBiometricPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
             else -> result.error("Biometric_ERROR_0", v.toString(), null)
         }
     } else if (call.method == "authenticate") {
+        @Suppress("UNCHECKED_CAST")
         val argument = call.arguments as Map<String, String>
         val promptInfo = getPrompt(
             title = argument.get("title")!!,
