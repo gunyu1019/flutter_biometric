@@ -52,6 +52,27 @@ class _MyAppState extends State<MyApp> {
         });
     }
 
+    Future<void> authenticate() async {
+        String platformVersion;
+
+        try {
+            bool result = await _flutterBiometricPlugin.authenticate(
+                'Biometric Authenticate',
+                AndroidOption(
+                    negativeButtonText: "취소"
+                )
+            );
+            platformVersion = "${result}";
+        } on PlatformException catch(e) {
+            platformVersion = e.message ?? e.code;
+        }
+        if(!mounted) return;
+        
+        setState(() {
+            _platformVersion = platformVersion;
+        });
+    }
+
     @override
     Widget build(BuildContext context) {
         return MaterialApp(
@@ -64,12 +85,7 @@ class _MyAppState extends State<MyApp> {
                 ),
                 floatingActionButton: FloatingActionButton(
                     onPressed: () {
-                        _flutterBiometricPlugin.authenticate(
-                            'Biometric Authenticate',
-                            AndroidOption(
-                                negativeButtonText: "취소"
-                            )
-                        );
+                        authenticate();
                     },
                     tooltip: 'Authenticate',
                     child: const Icon(Icons.fingerprint),

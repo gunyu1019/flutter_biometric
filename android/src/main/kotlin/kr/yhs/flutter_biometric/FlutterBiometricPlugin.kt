@@ -68,7 +68,6 @@ class FlutterBiometricPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
                 super.onAuthenticationFailed()
                 result.success(false)
             }
-
         })
     }else {
       result.notImplemented()
