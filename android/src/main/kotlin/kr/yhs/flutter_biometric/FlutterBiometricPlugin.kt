@@ -54,6 +54,8 @@ class FlutterBiometricPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
             subtitle = argument.get("subtitle"),
             description = argument.get("description")
         )
+        result.success(true)
+        return;
         authorize(promptInfo, object : BiometricPrompt.AuthenticationCallback() {
             override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
                 super.onAuthenticationError(errorCode, errString)
