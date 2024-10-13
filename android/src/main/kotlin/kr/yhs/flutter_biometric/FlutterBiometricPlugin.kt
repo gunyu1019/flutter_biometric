@@ -54,6 +54,7 @@ class FlutterBiometricPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
             subtitle = argument.get("subtitle"),
             description = argument.get("description")
         )
+        val fragmentAcitivty = activity as FragmentActivity 
         result.success(true)
         return;
         authorize(promptInfo, object : BiometricPrompt.AuthenticationCallback() {
